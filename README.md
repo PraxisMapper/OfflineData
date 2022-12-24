@@ -29,7 +29,7 @@ The index allows for multiple types of areas to be packed into one file, but gen
 Each dictionary contains another dictionary of child cells by character pairs, and this repeats for the first 6 characters. The 4th character pair, instead of containing another dictionary set, holds a pipe-delimited string of which index keys are present in that area.
 In the example above, we can see that the PlusCodes 22334455 and 2233443C have a beach present. Excluded character pairs indicate there are no such areas inside the missing area.
 
-#License
+# License
 Source data copyright OpenStreetMap Contributors
 Licensed under the Open Data Commons Open Database License (ODbL)
 https://opendatacommons.org/licenses/odbl/
