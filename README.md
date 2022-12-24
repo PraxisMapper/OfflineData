@@ -2,7 +2,7 @@
 A set of files for identifying types of locations in the general vicinity. Generated with PraxisMapper.
 These files give you the ability to identify when a player/user is within a roughly 300m block containing the selected area without a connection to a separate server.
 
-#Usage
+# Usage
 Download and unzip whichever set of files you want to be able to reference in your mobile app.
 The files can be used to identify which features are present in a PlusCode to a Cell8 resolution. (In proper OpenLocationCode syntax, this would be 22334455+00. PraxisMapper removes trailing zeros when referring to PlusCodes for convenience).
 Each zip contains up to 400 .json files, with this schema:
