@@ -8,16 +8,23 @@ The files can be used to draw images of a map tile as well as identify the names
 ```
 {
   "olc": "87J2C2",
-  "entries": [
-    {
+  "entries": {
+    "mapTiles" : {
       "nid":1
       "tid": 80,
       "gt": 3,
       "p": "6399,0|0,0|0,10000|6399,10000|6399,0"
+    },
+    "adminBounds": {
+      "nid":2
+      "tid": 1,
+      "gt": 3,
+      "p": "6399,0|0,0|0,10000|6399,10000|6399,0"
     }
-  ],
+  },
   "nameTable": {
-    "1": "Lake Erie"
+    "1": "Lake Erie",
+    "2": "United States of America"
   }
 }
 ```
