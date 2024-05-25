@@ -1,74 +1,44 @@
 # OfflineData
-A set of files for identifying types of locations in the general vicinity. Generated with PraxisMapper.
-These files give you the ability to identify when a player/user is within a roughly 300m block containing the selected area without a connection to a separate server.
+A set of minimized files for identifying locations in the general vicinity by type and name. These contain 25 different types of places worth visiting in a locative game, globally totalling about 7 million POIs. These files give you the ability to identify the name and type of place a player/user is in to roughly 14m(~45ft) without a connection to a separate server. For an example of these in use, see the WeekendSpaceProto repository here on GitHub or install the working client from https://cerol.itch.io/weekend-space-command-prototype
 
-# Usage (Future)
-Download and optionaly unzip whichever set of files you want to be able to reference in your mobile app.
-The files can be used to draw images of a map tile as well as identify the names and terrain types of features are present in a PlusCode to a Cell8 resolution. (In proper OpenLocationCode syntax, this would be 22334400+00. PraxisMapper removes trailing zeros when referring to PlusCodes for convenience).
+Information in the files was generated in March 2024, from planet.osm.pbf dated May 2023. 
+
+# Usage
+Download whichever set of files you want to be able to reference in your mobile app. (In the expected use case of being included in a Godot Engine game, unzipping the entire set of files will result in a multi-minute delay in startup times.)
+The files can be used to draw images of a map tile as well as identify the names and terrain types of features are present in a PlusCode to approximately a Cell10 resolution. (In proper OpenLocationCode syntax, this would be 22334400+00. PraxisMapper removes trailing zeros when referring to PlusCodes for convenience).
 ```
 {
-  "olc": "87J2C2",
-  "entries": {
-    "mapTiles" : {
-      "nid":1
-      "tid": 80,
-      "gt": 3,
-      "p": "6399,0|0,0|0,10000|6399,10000|6399,0"
-    },
-    "adminBounds": {
-      "nid":2
-      "tid": 1,
-      "gt": 3,
-      "p": "6399,0|0,0|0,10000|6399,10000|6399,0"
-    }
+  "olc":"8M3V46",
+  "entries":{
+    "suggestedmini":[
+      {"c":"258,48","r":10,"tid":1},
+      {"c":"113,75","r":9,"tid":1},
+      {"c":"131,78","r":2,"nid":1,"tid":18},
+      {"c":"258,51","r":2,"tid":19},
+      {"c":"131,71","r":2,"nid":1,"tid":18}
+    ]
   },
-  "nameTable": {
-    "1": "Lake Erie",
-    "2": "United States of America"
+  "nameTable":{
+    "1":"chin letters"
   }
 }
 ```
+
+Each file is a Cell6, and each 'pixel' in this is a Cell10, creating a 400x400 grid to reference. To determine a user's coordinates, start at 0,0 in the current Cell6 of hte players current PlusCode location. Add (index * 20) to both X and Y values matches the characters index in the Cell8 positions, and add index to both values for the characters in the Cell10 positions. EX: 8M3V4652+HM. Take the first 6 out (8M3V46) and load that file. Add 100 to Y for the 5 and 11 for H. Add 0 to X for the 2 and 13 for the M. Your player's location in this grid is 13, 111.
+
 Schema:
-* olc: Confirmation of which PlusCode Cell6 this data corresponds to
-* entries: An array of dictionaries, each one corresponding to a single shape to be drawn by the client
-* * nid: Name ID. Which entry in the nameTable is associated with this geometry item.
-* * tid: Terrain ID. The MatchOrder property of a PraxisMapper style entry in the mapTiles style set.
-* * gt: Geometry Type. 1 is a Point, 2 is a Line, 3 is a Polygon.
-* * p: Points. In pixel coordinates, where to draw the Point or each Point in the line/polygon. Each pixel is a Cell12, so the output Cell6 will be 6,400 x 10,000 on the default scaling with a .64 aspect ratio.
+* olc: Confirmation of which PlusCode Cell6 this data corresponds to. Each Cell6 file is 1 degree square on the map.
+* entries: An array of dictionaries, each one corresponding to a single shape to be drawn by the client. In this minimized format, the only set will be "suggestedmini".
+* * nid: Name ID. If present, indicates which entry in the nameTable is associated with this geometry item.
+* * tid: Terrain ID. The MatchOrder property of a PraxisMapper style entry in the style set matching the entries name.
+* * c: Center. The middle of this circle in the 400x400 grid this file represents.
+* * r: Radius. How wide to draw the circle on the grid.
 * nameTable: a dictionary of numbers and names. Key is nameId, Value is name. All names are unique in a file.
 
-This data is sufficient to allow a client to draw 3 highly accurate images: The actual map tile using style data, a name map by attaching nid values to unique colors, and a terrain type map using terrain ids.
-The latter 2 images can be used by a client to reference a location by pixel and match the color back to a name or terrain type.ohi
-
-
-# Usage (Old)
-Download and unzip whichever set of files you want to be able to reference in your mobile app.
-The files can be used to identify which features are present in a PlusCode to a Cell8 resolution. (In proper OpenLocationCode syntax, this would be 22334455+00. PraxisMapper removes trailing zeros when referring to PlusCodes for convenience).
-Each zip contains up to 400 .json files, with this schema:
-
-```
-{
-  "index": {
-    "university,1|retail,2|tourism,3|wreck,4|historical,5|artsCulture,6|namedBuilding,7|water,8|wetland,9|park,10|beach,11|natureReserve,12|cemetery,13|trail,14" : {}
-  },
-  "22": {
-    "33":{
-      "44":{
-        "55": "11",
-        "3C": "11"
-        }
-      }
-    }
-  }
-}
-```
-
-Each file covers a 20 degree x 20 degree area, corresponding to the first 2 digits of the PlusCode it represents. It then contains an 'index' dictionary, with the first entry's key containing the list of area types and their numerical id.
-The index allows for multiple types of areas to be packed into one file, but generating those takes dramatically longer and you may only have an interest in one type of place.
-Each dictionary contains another dictionary of child cells by character pairs, and this repeats for the first 6 characters. The 4th character pair, instead of containing another dictionary set, holds a pipe-delimited string of which index keys are present in that area.
-In the example above, we can see that the PlusCodes 22334455 and 2233443C have a beach present. Excluded character pairs indicate there are no such areas inside the missing area.
+This data is sufficient to allow a client to draw 3 reasonably accurate images: The actual map tile using style data, a name map by attaching nid values to unique colors, and a terrain type map using terrain ids. The latter 2 images can be used by a client to reference a location by pixel and match the color back to a name or terrain type, though math can be done to determine distance to each point and check vs radius as well.
 
 # License
-Source data copyright OpenStreetMap Contributors
-Licensed under the Open Data Commons Open Database License (ODbL)
+Source data copyright OpenStreetMap Contributors. 
+Processed files createdy by PraxisMapper. 
+Licensed under the Open Data Commons Open Database License (ODbL). 
 https://opendatacommons.org/licenses/odbl/
