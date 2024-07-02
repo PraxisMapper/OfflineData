@@ -24,7 +24,7 @@ The files can be used to draw images of a map tile as well as identify the names
 }
 ```
 
-Each file is a Cell6, and each 'pixel' in this is a Cell10, creating a 400x400 grid to reference. To determine a user's coordinates, start at 0,0 in the current Cell6 of hte players current PlusCode location. Add (index * 20) to both X and Y values matches the characters index in the Cell8 positions, and add index to both values for the characters in the Cell10 positions. EX: 8M3V4652+HM. Take the first 6 out (8M3V46) and load that file. Add 100 to Y for the 5 and 11 for H. Add 0 to X for the 2 and 13 for the M. Your player's location in this grid is 13, 111.
+Each file is a Cell6, and each 'pixel' in this is a Cell10, creating a 400x400 grid to reference. To determine a user's coordinates, start at 0,0 (lower left corner) in the current Cell6 of the players current PlusCode location. Add (index * 20) to both X and Y values matches the characters index in the Cell8 positions, and add index to both values for the characters in the Cell10 positions. EX: 8M3V4652+HM. Take the first 6 out (8M3V46) and load that file. Add 100 to Y for the 5 and 11 for H. Add 0 to X for the 2 and 13 for the M. Your player's location in this grid is 13, 111.
 
 Schema:
 * olc: Confirmation of which PlusCode Cell6 this data corresponds to. Each Cell6 file is 1 degree square on the map.
