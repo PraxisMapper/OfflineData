@@ -1,7 +1,7 @@
 # OfflineData
 A set of minimized files for identifying locations in the general vicinity by type and name. These contain 25 different types of places worth visiting in a locative game, globally totalling about 7 million POIs. These files give you the ability to identify the name and type of place a player/user is in to roughly 14m(~45ft) without a connection to a separate server. For an example of these in use, see the WeekendSpaceProto repository here on GitHub or install the working client from https://cerol.itch.io/weekend-space-command-prototype
 
-Information in the files was generated in March 2024, from planet.osm.pbf dated May 2023. 
+Information in the files was generated in July 2024, from planet.osm.pbf dated June 2024. 
 
 # Usage
 Download whichever set of files you want to be able to reference in your mobile app. (In the expected use case of being included in a Godot Engine game, unzipping the entire set of files will result in a multi-minute delay in startup times.)
